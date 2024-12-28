@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { BiHide, BiShowAlt } from 'react-icons/bi';
+import axios from 'axios';
 
 const SignUp = () => {
   const [data, setData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
@@ -18,13 +19,14 @@ const SignUp = () => {
     data.password.trim() !== '' &&
     data.password === data.confirmPassword;
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
 
-    if (isValid) {
-      console.log('Form Submitted', data);
-    } else {
-      console.error('Invalid form submission');
+    try {
+      const response = await axios.post('http://localhost:3000/api/v1/register', data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('signup failed:', error);
     }
   };
 
